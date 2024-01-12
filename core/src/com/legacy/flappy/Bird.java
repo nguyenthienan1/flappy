@@ -33,10 +33,11 @@ public class Bird {
         shapeRenderer.rect(collider.x, collider.y, collider.width, collider.height);
     }
 
-    float rotateSpeed;
     float vy = 0; //Velocity of y
     float vyMin = -540f;
     float vyMax = 360f;
+    float gravity = -1440f;
+    float rotationAngleMax = 30f;
 
     public void update(float deltaTime) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) {
@@ -45,15 +46,24 @@ public class Bird {
                 vy = vyMax;
             }
             //reset rotation
-            rotationAngle = 30f;
-            rotateSpeed = 0;
+            rotationAngle = rotationAngleMax;
         }
-        rotateSpeed += 180f * deltaTime;
-        if (rotationAngle >= -90f) rotationAngle -= rotateSpeed * deltaTime;
+        updatePhysics(deltaTime);
+    }
+
+    public void updatePhysics(float deltaTime) {
         if (vy > vyMin) {
-            float gravity = -1440f;
             vy += gravity * deltaTime;
         }
+
         collider.y += vy * deltaTime;
+
+        if (rotationAngle > rotationAngleMax) {
+            rotationAngle = rotationAngleMax;
+        }
+        if (rotationAngle <= rotationAngleMax && rotationAngle >= -90f) {
+            //rotate at vy
+            rotationAngle += vy / 2 * deltaTime;
+        }
     }
 }
