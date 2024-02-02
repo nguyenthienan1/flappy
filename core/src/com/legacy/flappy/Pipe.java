@@ -18,7 +18,7 @@ public class Pipe {
         spriteDown = FlappyGame.textureAtlas.createSprite("pipe-down");
         float yUpPipe = (float) (230 + (400 - 230) * Math.random());
         spriteUp.setPosition(xPipe, yUpPipe);
-        float yDownPipe = (yUpPipe - 100) - spriteDown.getHeight();
+        float yDownPipe = (yUpPipe - 120) - spriteDown.getHeight();
         spriteDown.setPosition(xPipe, yDownPipe);
     }
 

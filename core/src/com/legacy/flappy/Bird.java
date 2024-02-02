@@ -23,7 +23,6 @@ public class Bird {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime);
         spriteBatch.draw(currentFrame, collider.getX(), collider.getY(), (float) currentFrame.getRegionWidth() / 2, (float) currentFrame.getRegionHeight() / 2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 1f, 1f, rotationAngle);
     }
@@ -36,10 +35,11 @@ public class Bird {
     float vy = 0; //Velocity of y
     float vyMin = -540f;
     float vyMax = 360f;
-    float gravity = -1440f;
+    float gravity = -1100f;
     float rotationAngleMax = 30f;
 
     public void update(float deltaTime) {
+        stateTime += deltaTime;
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.justTouched()) {
             Sounds.wingSound.play();
             if (collider.y < FlappyGame.HEIGHT) {

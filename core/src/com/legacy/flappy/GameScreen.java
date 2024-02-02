@@ -94,7 +94,7 @@ public class GameScreen extends AbstractScreen {
             pipes.remove(firstPipe);
         }
         Pipe lastPipe = pipes.get(pipes.size() - 1);
-        if (lastPipe.xPipe <= 650) {
+        if (lastPipe.xPipe <= 620) {
             Pipe pipe = new Pipe();
             pipes.add(pipe);
         }
