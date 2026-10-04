@@ -2,6 +2,7 @@ package com.legacy.flappy;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +21,7 @@ public class FlappyGame extends ApplicationAdapter {
         textureAtlas = new TextureAtlas(Gdx.files.internal("images/atlas.txt"));
         Sounds.init();
         font = new BitmapFont();
+        font.setColor(Color.BLACK);
         screen = new GameScreen();
     }
 

@@ -19,8 +19,8 @@ public class Background {
 
     public void update(float deltaTime) {
         x += speed * deltaTime;
-        if (x >= 288f) {
-            x = 0;
+        if (x >= sprite.getWidth()) {
+            x -= sprite.getWidth();
         }
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class Bird {
     public Animation<TextureRegion> birdAnimation;
     public Rectangle collider;
+    public Sprite sprite;
     private float rotationAngle;
     float stateTime = 0f;
 
@@ -20,11 +21,13 @@ public class Bird {
         birdAnimation = new Animation<TextureRegion>(0.05f, FlappyGame.textureAtlas.findRegions("bird"), Animation.PlayMode.LOOP);
         collider = FlappyGame.textureAtlas.createSprite("bird", 1).getBoundingRectangle();
         collider.setPosition((float) FlappyGame.WIDTH * 1 / 3, (float) FlappyGame.HEIGHT / 2);
+        sprite = new Sprite(birdAnimation.getKeyFrame(0f));
+        sprite.setPosition(collider.x, collider.y);
+        sprite.setOriginCenter();
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime);
-        spriteBatch.draw(currentFrame, collider.getX(), collider.getY(), (float) currentFrame.getRegionWidth() / 2, (float) currentFrame.getRegionHeight() / 2, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), 1f, 1f, rotationAngle);
+        sprite.draw(spriteBatch);
     }
 
     public void drawCollider(ShapeRenderer shapeRenderer) {
@@ -34,8 +37,8 @@ public class Bird {
 
     float vy = 0; //Velocity of y
     float vyMin = -540f;
-    float vyMax = 360f;
-    float gravity = -1100f;
+    float vyMax = 400f;
+    float gravity = -1300f;
     float rotationAngleMax = 30f;
 
     public void update(float deltaTime) {
@@ -49,6 +52,11 @@ public class Bird {
             rotationAngle = rotationAngleMax;
         }
         updatePhysics(deltaTime);
+
+        TextureRegion currentFrame = birdAnimation.getKeyFrame(stateTime);
+        sprite.setRegion(currentFrame);
+        sprite.setPosition(collider.x, collider.y);
+        sprite.setRotation(rotationAngle);
     }
 
     public void updatePhysics(float deltaTime) {

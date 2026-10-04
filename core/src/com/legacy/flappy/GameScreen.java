@@ -28,19 +28,20 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void draw() {
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
+
 
         bg.draw(spriteBatch);
         bird.draw(spriteBatch);
         for (Pipe pipe : pipes) {
             pipe.draw(spriteBatch);
         }
-        drawScore();
-        FlappyGame.font.setColor(Color.BLACK);
+
         FlappyGame.font.draw(spriteBatch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, FlappyGame.HEIGHT - 25);
-
+        FlappyGame.font.draw(spriteBatch, "SCORE: " + score, 10, FlappyGame.HEIGHT - 50);
         spriteBatch.end();
-
 //        drawCollider();
     }
 
@@ -51,12 +52,6 @@ public class GameScreen extends AbstractScreen {
             pipe.drawCollider(shapeRenderer);
         }
         shapeRenderer.end();
-    }
-
-
-    public void drawScore() {
-        FlappyGame.font.setColor(0, 0, 0, 1);
-        FlappyGame.font.draw(spriteBatch, "SCORE: " + score, 10, FlappyGame.HEIGHT - 50);
     }
 
     @Override
@@ -75,7 +70,7 @@ public class GameScreen extends AbstractScreen {
         bird.update(deltaTime);
         for (Pipe pipe : pipes) {
             pipe.update(deltaTime);
-            if (bird.collider.overlaps(pipe.spriteUp.getBoundingRectangle()) || bird.collider.overlaps(pipe.spriteDown.getBoundingRectangle())) {
+            if (bird.collider.overlaps(pipe.colliderUp) || bird.collider.overlaps(pipe.colliderDown)) {
                 gameOver();
                 return;
             }

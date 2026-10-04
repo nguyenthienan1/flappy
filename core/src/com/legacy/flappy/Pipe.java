@@ -1,25 +1,42 @@
 package com.legacy.flappy;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Pipe {
-    Sprite spriteUp;
-    Sprite spriteDown;
+    public Sprite spriteUp;
+    public Sprite spriteDown;
+    public Rectangle colliderUp;
+    public Rectangle colliderDown;
+
     float xPipe = 800;
     boolean isScored;
 
     public Pipe() {
         spriteUp = FlappyGame.textureAtlas.createSprite("pipe-up");
         spriteDown = FlappyGame.textureAtlas.createSprite("pipe-down");
+
         float yUpPipe = (float) (230 + (400 - 230) * Math.random());
-        spriteUp.setPosition(xPipe, yUpPipe);
         float yDownPipe = (yUpPipe - 120) - spriteDown.getHeight();
+
+        spriteUp.setPosition(xPipe, yUpPipe);
         spriteDown.setPosition(xPipe, yDownPipe);
+
+        colliderUp = new Rectangle(xPipe, yUpPipe, spriteUp.getWidth(), spriteUp.getHeight());
+        colliderDown = new Rectangle(xPipe, yDownPipe, spriteDown.getWidth(), spriteDown.getHeight());
+    }
+
+    public void update(float deltaTime) {
+        xPipe -= 120f * deltaTime;
+
+        spriteUp.setX(xPipe);
+        spriteDown.setX(xPipe);
+
+        colliderUp.setX(xPipe);
+        colliderDown.setX(xPipe);
     }
 
     public void draw(SpriteBatch spriteBatch) {
@@ -29,13 +46,7 @@ public class Pipe {
 
     public void drawCollider(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.rect(spriteUp.getBoundingRectangle().x, spriteUp.getBoundingRectangle().y, spriteUp.getBoundingRectangle().width, spriteUp.getBoundingRectangle().height);
-        shapeRenderer.rect(spriteDown.getBoundingRectangle().x, spriteDown.getBoundingRectangle().y, spriteDown.getBoundingRectangle().width, spriteDown.getBoundingRectangle().height);
-    }
-
-    public void update(float deltaTime) {
-        xPipe -= 120f * deltaTime;
-        spriteUp.setX(xPipe);
-        spriteDown.setX(xPipe);
+        shapeRenderer.rect(colliderUp.x, colliderUp.y, colliderUp.width, colliderUp.height);
+        shapeRenderer.rect(colliderDown.x, colliderDown.y, colliderDown.width, colliderDown.height);
     }
 }
